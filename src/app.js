@@ -32,6 +32,12 @@ app.post("/books", (req, res) => {
   res.status(201).send("Book registered!");
 });
 
+app.put("/books/:id", (req, res) => {
+  const index = findById(req.params.id);
+  books[index].title = req.body.title;
+  res.status(200).json(books);
+})
+
 function findById(id) {
   return books.findIndex(books => {
     return books.id === Number(id);
