@@ -1,4 +1,15 @@
 import express from "express";
+import connectDB from "./config/dbConnect.js";
+
+const connection = await connectDB();
+
+connection.on("error", (error) => {
+  console.error("Connection error", error);
+});
+
+connection.once("open", () => {
+  console.log("Database connection succeeded!");
+});
 
 const app = express();
 app.use(express.json());
@@ -45,7 +56,7 @@ app.delete("/books/:id", (req, res) => {
 });
 
 function findById(id) {
-  return books.findIndex(books => {
+  return books.findIndex((books) => {
     return books.id === Number(id);
   });
 }
