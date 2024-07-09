@@ -36,7 +36,13 @@ app.put("/books/:id", (req, res) => {
   const index = findById(req.params.id);
   books[index].title = req.body.title;
   res.status(200).json(books);
-})
+});
+
+app.delete("/books/:id", (req, res) => {
+  const index = findById(req.params.id);
+  books.splice(index, 1);
+  res.status(204);
+});
 
 function findById(id) {
   return books.findIndex(books => {
