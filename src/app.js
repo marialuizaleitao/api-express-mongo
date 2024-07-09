@@ -22,9 +22,20 @@ app.get("/books", (req, res) => {
   res.status(200).json(books);
 });
 
+app.get("/books/:id", (req, res) => {
+  const index = findById(req.params.id);
+  res.status(200).json(books[index]);
+});
+
 app.post("/books", (req, res) => {
-  books.push(req.body)
+  books.push(req.body);
   res.status(201).send("Book registered!");
 });
+
+function findById(id) {
+  return books.findIndex(books => {
+    return books.id === Number(id);
+  });
+}
 
 export default app;
