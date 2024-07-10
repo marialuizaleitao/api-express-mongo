@@ -1,5 +1,6 @@
 import express from "express";
 import connectDB from "./config/dbConnect.js";
+import book from "./models/Book.js";
 
 const connection = await connectDB();
 
@@ -14,23 +15,13 @@ connection.once("open", () => {
 const app = express();
 app.use(express.json());
 
-const books = [
-  {
-    id: 1,
-    title: "Lord of the Rings",
-  },
-  {
-    id: 2,
-    title: "The Power of Now",
-  },
-];
-
 app.get("/", (req, res) => {
   res.status(200).send("Node.js application");
 });
 
-app.get("/books", (req, res) => {
-  res.status(200).json(books);
+app.get("/books", async (req, res) => {
+  const bookList = await book.find({});
+  res.status(200).json(bookList);
 });
 
 app.get("/books/:id", (req, res) => {
@@ -54,11 +45,5 @@ app.delete("/books/:id", (req, res) => {
   books.splice(index, 1);
   res.status(204);
 });
-
-function findById(id) {
-  return books.findIndex((books) => {
-    return books.id === Number(id);
-  });
-}
 
 export default app;
