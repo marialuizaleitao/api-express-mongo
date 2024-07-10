@@ -19,11 +19,6 @@ app.get("/", (req, res) => {
   res.status(200).send("Node.js application");
 });
 
-app.get("/books", async (req, res) => {
-  const bookList = await book.find({});
-  res.status(200).json(bookList);
-});
-
 app.get("/books/:id", (req, res) => {
   const index = findById(req.params.id);
   res.status(200).json(books[index]);
