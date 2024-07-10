@@ -37,6 +37,19 @@ class BookController {
       res.status(500).json({ message: `${error.message} - book not found.` });
     }
   }
+
+  static async updateBook(req, res) {
+    try {
+      const id = req.params.id;
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid book ID." });
+      }
+      await book.findByIdAndUpdate(id, req.body);
+      res.status(200).json("Book updated.");
+    } catch (error) {
+      res.status(500).json({ message: `${error.message} - request failed.` });
+    }
+  }
 }
 
 export default BookController;
