@@ -15,10 +15,4 @@ connection.once("open", () => {
 const app = express();
 routes(app);
 
-app.delete("/books/:id", (req, res) => {
-  const index = findById(req.params.id);
-  books.splice(index, 1);
-  res.status(204);
-});
-
 export default app;

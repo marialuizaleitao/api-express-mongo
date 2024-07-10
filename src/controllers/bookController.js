@@ -1,5 +1,5 @@
-import book from "../models/Book.js";
 import mongoose from "mongoose";
+import book from "../models/Book.js";
 
 class BookController {
   static async createBook(req, res) {
@@ -46,6 +46,19 @@ class BookController {
       }
       await book.findByIdAndUpdate(id, req.body);
       res.status(200).json("Book updated.");
+    } catch (error) {
+      res.status(500).json({ message: `${error.message} - request failed.` });
+    }
+  }
+
+  static async deleteBook(req, res) {
+    try {
+      const id = req.params.id;
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: "Invalid book ID." });
+      }
+      await book.findByIdAndDelete(id);
+      res.status(200).json("Book deleted.");
     } catch (error) {
       res.status(500).json({ message: `${error.message} - request failed.` });
     }
